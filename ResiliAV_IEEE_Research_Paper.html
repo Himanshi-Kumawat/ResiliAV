@@ -329,7 +329,7 @@
 <!-- Part 2: Related Work & Threat Model (Two Column) -->
 <div class="two-column">
 
-  <h2 class="section-heading">II. Related Work &amp; Research Gap</h2>
+  <h2 class="section-heading">II. Literature Review and Related Work</h2>
   <p>
     In-vehicle network intrusion detection has matured through distinct methodological phases. Early works by Kang et al. [3] and Taylor et al. [4] explored traditional statistical anomaly detection and tree-based ensembles (Decision Trees, Random Forests) to detect frequency anomalies on arbitration IDs. While computationally efficient, these models exhibit high False Positive Rates (FPR &gt; 1.2%) when confronted with subtle payload bit-manipulations that mimic normal vehicular timing.
   </p>
@@ -366,7 +366,7 @@
     where <em>P(d<sub>i</sub>)</em> denotes empirical byte occurrence probability and &epsilon; = 10<sup>-9</sup> prevents logarithmic singularity.
   </p>
 
-  <h2 class="section-heading">IV. Proposed ResiliAV Architecture</h2>
+  <h2 class="section-heading">IV. Research Methodology and Proposed Architecture</h2>
   
   <h3 class="subsection-heading">A. Stage 1: Edge-Lightweight XGBoost Gatekeeper</h3>
   <p>
@@ -632,7 +632,7 @@
 <!-- Part 3: Evaluation, Compliance, Conclusion & References (Two Column) -->
 <div class="two-column">
 
-  <h2 class="section-heading">V. Experimental Evaluation &amp; Results</h2>
+  <h2 class="section-heading">V. Results and Findings (Experimental Evaluation)</h2>
   <p>
     The ResiliAV architecture was benchmarked on an experimental corpus of 60,000 automotive CAN-bus frames calibrated to the Korea University HCRLab standard. The corpus comprises 42,000 benign frames and 18,000 multi-vector attack frames across 5 distinct classes.
   </p>
@@ -789,7 +789,7 @@
     &bull; <strong>Minimum Risk Maneuver (MRM):</strong> The vehicle steering assists in guiding the car safely toward the road shoulder instead of stopping dangerously in the middle of highway lanes.
   </p>
 
-  <h2 class="section-heading">VI. Discussion &amp; Safety Compliance</h2>
+  <h2 class="section-heading">VI. Discussion and Practical Feasibility</h2>
   <p>
     The integration of ResiliAV directly conforms to two international automotive benchmarks:
   </p>
@@ -800,7 +800,7 @@
     <strong>2) ISO 26262 ASIL-D (Functional Safety):</strong> Conventional safety engineering dictates that when software integrity is compromised, the system must enter a deterministic <em>Minimum Risk State (MRS)</em>. By programmatically capping speed at 50 km/h, locking seatbelt pre-tensioners, and alerting passengers, ResiliAV provides a certified fail-safe degraded mode (Limp-Home profile) without inducing hazardous abrupt stops on busy expressways.
   </p>
 
-  <h2 class="section-heading">VII. Conclusion &amp; Future Work</h2>
+  <h2 class="section-heading">VII. Conclusion and Future Scope</h2>
   <p>
     This paper presented <strong>ResiliAV (ACH-IDS)</strong>, a novel closed-loop cyber-physical defense framework for Connected Autonomous Vehicles. By cascading an edge-lightweight XGBoost filter with a spatial 1D-CNN Multi-Head Self-Attention deep payload inspector, ResiliAV breaks the traditional trade-off between detection accuracy and execution latency. The framework achieves <strong>99.78% accuracy, a 0.021% False Positive Rate, and a 1.48 ms inference latency</strong>. Uniquely, ResiliAV bridges passive machine learning with active vehicular safety actuation by enforcing an immediate 50 km/h speed governor lock, seatbelt safety interlock, and auditory advisory broadcast upon attack detection.
   </p>

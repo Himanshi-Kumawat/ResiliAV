@@ -86,9 +86,9 @@ To overcome previous limitations, this paper proposes \textbf{ResiliAV (Adaptive
 \end{figure*}
 
 % =========================================================================
-% Section II: Related Work & Comparison Table
+% Section II: Literature Review & Related Work
 % =========================================================================
-\section{Related Work and Research Gaps}
+\section{Literature Review and Related Work}
 Automotive intrusion detection has evolved through statistical and machine learning approaches. Early systems analyzed message frequency and inter-arrival time ($\Delta t$) \cite{taylor2017frequency}. Although frequency checks detect high-rate Denial-of-Service (DoS) floods, they fail when an adversary injects sensor spoofing messages at regular, legitimate transmission intervals.
 
 To inspect message contents, Kang and Kang \cite{kang2016novel} trained Deep Neural Networks (DNNs) on raw CAN bitstreams. Song et al. \cite{song2020invehicle} and Tariq et al. \cite{tariq2021canadf} introduced Convolutional Neural Networks (CNNs) to capture temporal correlations across consecutive packets. Almehrezi et al. \cite{almehrezi2020emerging} conceptualized automotive threat vectors across internal and external network planes.
@@ -140,9 +140,9 @@ H(D) = -\sum_{i=0}^{7} P(d_i) \log_2(P(d_i) + \varepsilon)
 where $P(d_i)$ is the occurrence probability of byte $d_i$ and $\varepsilon = 10^{-9}$ avoids numerical instability.
 
 % =========================================================================
-% Section IV: Proposed ResiliAV Architecture
+% Section IV: Research Methodology & Proposed Architecture
 % =========================================================================
-\section{Proposed ResiliAV Architecture}
+\section{Research Methodology and Proposed Architecture}
 
 \subsection{Stage 1: Edge-Lightweight XGBoost Gatekeeper}
 Because over 85\% of automotive CAN traffic consists of routine periodic broadcasts, running a complex neural network on every packet wastes power and introduces latency. Stage~1 employs a histogram-optimized Gradient Boosted Decision Tree (XGBoost) \cite{chen2016xgboost}. 
@@ -175,9 +175,9 @@ When a frame is verified as malicious by the hybrid engine, ResiliAV triggers an
 \end{enumerate}
 
 % =========================================================================
-% Section V: Experimental Evaluation & Results
+% Section V: Experimental Results & Findings
 % =========================================================================
-\section{Experimental Evaluation and Results}
+\section{Experimental Results and Findings}
 
 \subsection{Dataset and Setup}
 ResiliAV was evaluated on 60,000 real-world automotive CAN frames conforming to the Korea University HCRLab Car-Hacking benchmark. The dataset contains 42,000 normal driving frames and 18,000 attack frames across DoS Flooding, Fuzzy Injection, Speed Telemetry Spoofing, and Seatbelt Spoofing. The dataset was split into 80\% training and 20\% stratified test data (12,000 test frames).
@@ -352,9 +352,9 @@ To make the cyber-physical operation clear and easy to understand, the vehicle d
 \end{enumerate}
 
 % =========================================================================
-% Section VI: Standards & Real-World Feasibility
+% Section VI: Discussion & Practical Feasibility
 % =========================================================================
-\section{Safety Standards and Practical Feasibility}
+\section{Discussion and Practical Feasibility}
 ResiliAV is architected to comply with modern automotive engineering mandates:
 \begin{itemize}
     \item \textbf{ISO/SAE 21434 (Road Vehicles -- Cybersecurity Engineering):} Fulfills Threat Analysis and Risk Assessment (TARA) mandates by actively neutralizing unauthorized in-vehicle transmissions.
@@ -362,9 +362,9 @@ ResiliAV is architected to comply with modern automotive engineering mandates:
 \end{itemize}
 
 % =========================================================================
-% Section VII: Conclusion
+% Section VII: Conclusion & Future Scope
 % =========================================================================
-\section{Conclusion}
+\section{Conclusion and Future Scope}
 In this paper, we introduced \textbf{ResiliAV (ACH-IDS)}, an adaptive closed-loop cyber-physical defense system for connected autonomous vehicles. ResiliAV solves the two core limitations of prior literature: (1) it replaces passive alert logging with active, closed-loop physical actuation (50\,km/h speed governor lock, seatbelt pre-tensioning, and audio warnings), and (2) it solves deep learning latency by combining a sub-millisecond XGBoost filter with a 1D-CNN Self-Attention model, achieving \textbf{99.78\% accuracy in 1.48\,ms}. Future work will evaluate ResiliAV on automotive-grade microcontrollers (Infineon AURIX TC397) and extend mitigation across multi-hop V2X channels.
 
 % =========================================================================
