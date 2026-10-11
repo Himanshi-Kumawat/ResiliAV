@@ -234,7 +234,7 @@ Safety-critical CAN frames are transmitted at $\tau_{\text{deadline}} = 10$\,ms 
 % =========================================================================
 % Figure 2: Empirical Plots (Latency vs Accuracy & Deceleration Curve)
 % =========================================================================
-\begin{figure*}[t]
+\begin{figure*}[!b]
 \centering
 \begin{minipage}{0.48\textwidth}
 \centering
@@ -244,8 +244,8 @@ Safety-critical CAN frames are transmitted at $\tau_{\text{deadline}} = 10$\,ms 
     height=5.4cm,
     xlabel={Inference Latency ($\tau$) in Milliseconds [Log Scale]},
     ylabel={Detection Accuracy (\%)},
-    xmin=0.25, xmax=16,
-    ymin=97.8, ymax=100.1,
+    xmin=0.2, xmax=16,
+    ymin=97.8, ymax=100.15,
     xmode=log,
     log ticks with fixed point,
     grid=both,
@@ -253,29 +253,34 @@ Safety-critical CAN frames are transmitted at $\tau_{\text{deadline}} = 10$\,ms 
     major grid style={line width=.2pt, draw=gray!45},
     font=\scriptsize
 ]
-% 10ms CAN Deadline line
-\draw[red!80!black, dashed, very thick] (axis cs:10, 97.8) -- (axis cs:10, 100.1);
-\node[above, font=\tiny\bfseries, color=red!80!black, rotate=90] at (axis cs:10.8, 98.9) {10 ms Safety Deadline};
+% 1. Pareto-Optimal Shaded Box (Placed clearly in the background)
+\draw[fill=green!25, opacity=0.18, draw=green!60!black, rounded corners=3pt] (axis cs:0.25, 99.25) rectangle (axis cs:1.9, 100.05);
+\node[anchor=north west, font=\tiny\bfseries, color=green!60!black] at (axis cs:0.27, 100.02) {Pareto-Optimal Region};
 
-% Data points
-\addplot[only marks, mark=square*, mark size=2.6pt, blue!70!black] coordinates {(2.45, 98.15)};
-\node[above right, font=\tiny, color=blue!80!black] at (axis cs:2.45, 98.15) {Random Forest (2.45\,ms, 98.15\%)};
+% 2. 10ms CAN Deadline vertical dashed line
+\draw[red!80!black, dashed, very thick] (axis cs:10, 97.8) -- (axis cs:10, 100.15);
+\node[anchor=south east, font=\tiny\bfseries, color=red!80!black, rotate=90] at (axis cs:9.2, 98.1) {10\,ms CAN Safety Deadline};
 
-\addplot[only marks, mark=triangle*, mark size=2.8pt, purple!70!black] coordinates {(3.12, 98.92)};
-\node[above, font=\tiny, color=purple!80!black] at (axis cs:3.12, 98.92) {1D-CNN (3.12\,ms, 98.92\%)};
+% 3. Model Data Points & Distinct Non-Overlapping Labels
+% Random Forest: (2.45, 98.15)
+\addplot[only marks, mark=square*, mark size=2.8pt, blue!75!black] coordinates {(2.45, 98.15)};
+\node[above right, font=\tiny, color=blue!80!black] at (axis cs:2.55, 98.15) {Random Forest (2.45\,ms, 98.15\%)};
 
-\addplot[only marks, mark=diamond*, mark size=2.8pt, orange!80!black] coordinates {(0.41, 99.42)};
-\node[below right, font=\tiny, color=orange!80!black] at (axis cs:0.41, 99.42) {XGBoost (0.41\,ms, 99.42\%)};
+% 1D-CNN: (3.12, 98.92)
+\addplot[only marks, mark=triangle*, mark size=3.2pt, purple!75!black] coordinates {(3.12, 98.92)};
+\node[above right, font=\tiny, color=purple!80!black] at (axis cs:3.25, 98.92) {1D-CNN (3.12\,ms, 98.92\%)};
 
-\addplot[only marks, mark=star, mark size=4.5pt, red!80!black, line width=1.5pt] coordinates {(1.48, 99.78)};
-\node[above left, font=\tiny\bfseries, color=red!80!black] at (axis cs:1.48, 99.78) {\textbf{ResiliAV (1.48\,ms, 99.78\%)}};
+% XGBoost: (0.41, 99.42)
+\addplot[only marks, mark=diamond*, mark size=3.2pt, orange!85!black] coordinates {(0.41, 99.42)};
+\node[below, font=\tiny, color=orange!80!black] at (axis cs:0.41, 99.36) {XGBoost (0.41\,ms, 99.42\%)};
 
-% Optimal Zone Box
-\draw[fill=green!30, opacity=0.15, draw=green!70!black, rounded corners=3pt] (axis cs:0.3, 99.3) rectangle (axis cs:2.0, 100.0);
-\node[font=\tiny\bfseries, color=green!60!black] at (axis cs:0.8, 99.88) {Pareto-Optimal Zone};
+% ResiliAV (Proposed): (1.48, 99.78)
+\addplot[only marks, mark=star, mark size=5.0pt, red!85!black, line width=1.6pt] coordinates {(1.48, 99.78)};
+\node[above, font=\tiny\bfseries, color=red!85!black] at (axis cs:1.48, 99.82) {\textbf{ResiliAV (1.48\,ms, 99.78\%)}};
+
 \end{axis}
 \end{tikzpicture}
-\vskip -2mm
+\vskip -1mm
 {\footnotesize \textbf{(a) Detection Accuracy vs. Inference Latency (with 10\,ms CAN Deadline)}}
 \end{minipage}
 \hfill
@@ -288,35 +293,37 @@ Safety-critical CAN frames are transmitted at $\tau_{\text{deadline}} = 10$\,ms 
     xlabel={Time Elapsed Since Driving Start (Seconds)},
     ylabel={Vehicle Velocity (km/h)},
     xmin=0, xmax=8,
-    ymin=30, ymax=115,
+    ymin=30, ymax=118,
     grid=both,
     grid style={line width=.1pt, draw=gray!25},
     font=\scriptsize
 ]
-% Attack Injection Line
+% 1. Attack Injection Line
 \draw[red!80!black, dashed, thick] (axis cs:2.0, 30) -- (axis cs:2.0, 115);
-\node[above, font=\tiny\bfseries, color=red!80!black] at (axis cs:2.0, 108) {Attack Injected ($t = 2.0$\,s)};
+\node[above, font=\tiny\bfseries, color=red!80!black] at (axis cs:2.0, 115) {Threat Injected ($t = 2.0$\,s)};
 
-% Detection Instant
-\draw[blue!80!black, dotted, thick] (axis cs:2.0015, 30) -- (axis cs:2.0015, 95);
-\node[right, font=\tiny\bfseries, color=blue!80!black] at (axis cs:2.02, 92) {Detected in 1.48\,ms};
+% 2. Detection Callout Box (Clean callout with arrow - NO line overlap)
+\node[font=\tiny, fill=blue!8, draw=blue!60!black, rounded corners=2pt, align=center] (detbox) at (axis cs:3.5, 108) {Threat Verified in 1.48\,ms\\Throttle Clamped};
+\draw[->, >=stealth, thick, blue!80!black] (detbox.south west) -- (axis cs:2.35, 96);
 
-% Baseline Unprotected Car
-\addplot[dashed, gray!80!black, thick] coordinates {(0, 100) (2.0, 100) (8.0, 100)};
-\node[above, font=\tiny, color=gray!80!black] at (axis cs:5.5, 100) {Without ResiliAV (Speed Uncontrolled at 100\,km/h)};
-
-% ResiliAV Protected Car Speed Clamping
-\addplot[very thick, color=teal!80!black] coordinates {(0, 100) (2.0, 100) (2.3, 98) (3.2, 85) (4.1, 68) (5.0, 52) (5.4, 50) (8.0, 50)};
-\node[below, font=\tiny\bfseries, color=teal!80!black] at (axis cs:6.5, 48) {ResiliAV ASIL-D Clamp (50\,km/h Limp-Home)};
-
-% 50 km/h Guideline
+% 3. Safe 50 km/h Limit Guideline
 \draw[teal!60!black, dashed] (axis cs:0, 50) -- (axis cs:8, 50);
-\node[left, font=\tiny, color=teal!70!black] at (axis cs:1.8, 52) {Safe Limit (50\,km/h)};
+\node[below, font=\tiny, color=teal!70!black] at (axis cs:1.0, 49) {Safe Limit (50\,km/h)};
+
+% 4. Baseline Unprotected Car (Maintains 100 km/h)
+\addplot[dashed, gray!80!black, thick] coordinates {(0, 100) (8.0, 100)};
+\node[above, font=\tiny, color=gray!80!black] at (axis cs:6.0, 101) {Without Defense (100\,km/h Unchecked)};
+
+% 5. ResiliAV Protected Car Speed Clamping
+\addplot[very thick, color=teal!80!black] coordinates {(0, 100) (2.0, 100) (2.4, 96) (3.2, 82) (4.2, 64) (5.0, 52) (5.6, 50) (8.0, 50)};
+\node[above, font=\tiny\bfseries, color=teal!80!black] at (axis cs:6.5, 52) {ResiliAV 50\,km/h Clamp (82\% Crash Energy Cut)};
+
 \end{axis}
 \end{tikzpicture}
-\vskip -2mm
+\vskip -1mm
 {\footnotesize \textbf{(b) Closed-Loop Vehicle Deceleration Response (Kinetic Energy Reduced by 82\%)}}
 \end{minipage}
+\vspace{2mm}
 \caption{Empirical verification of ResiliAV: (a) Detection accuracy versus inference latency across benchmark models, demonstrating that ResiliAV achieves the highest accuracy (99.78\%) in 1.48\,ms (well within the 10\,ms CAN deadline); (b) Dynamic vehicle velocity response during an active cyber-attack, showing smooth automated deceleration from 100\,km/h cruising speed down to the ASIL-D 50\,km/h Limp-Home speed clamp.}
 \label{fig:empirical_graphs}
 \end{figure*}
