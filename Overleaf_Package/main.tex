@@ -75,69 +75,12 @@ To overcome previous limitations, this paper proposes \textbf{ResiliAV (Adaptive
 \end{itemize}
 
 % =========================================================================
-% Figure 1: Full-Width Vehicle Schematic & Architecture (2 Columns)
+% Figure 1: Full-Width Autonomous Vehicle Cyber-Physical System Architecture
 % =========================================================================
 \begin{figure*}[t]
 \centering
-\begin{tikzpicture}[
-    scale=0.92, every node/.style={transform shape},
-    box/.style={rectangle, draw=blue!70!black, fill=blue!6, rounded corners=4pt, thick, align=center, font=\scriptsize},
-    alertbox/.style={rectangle, draw=red!70!black, fill=red!10, rounded corners=4pt, thick, align=center, font=\scriptsize},
-    actbox/.style={rectangle, draw=green!60!black, fill=green!10, rounded corners=4pt, thick, align=center, font=\scriptsize},
-    carbody/.style={draw=purple!70!black, fill=purple!4, rounded corners=12pt, very thick},
-    arrow/.style={->, >=stealth, thick, color=gray!80!black}
-]
-
-    % 1. CAR PROFILE SILHOUETTE
-    \draw[carbody] (-0.8, 1.2) rectangle (13.8, 4.3);
-    \node[anchor=north west, font=\bfseries\footnotesize, color=purple!80!black] at (-0.6, 4.15) {Autonomous Vehicle Boundary (Connected Electric Vehicle Platform)};
-
-    % Wheels
-    \draw[fill=gray!80, draw=black, thick] (1.2, 0.9) circle (0.45);
-    \draw[fill=gray!30, draw=black] (1.2, 0.9) circle (0.22);
-    \node[font=\tiny\bfseries, color=white] at (1.2, 0.9) {Front};
-
-    \draw[fill=gray!80, draw=black, thick] (11.8, 0.9) circle (0.45);
-    \draw[fill=gray!30, draw=black] (11.8, 0.9) circle (0.22);
-    \node[font=\tiny\bfseries, color=white] at (11.8, 0.9) {Rear};
-
-    % Roof Sensor Pod (LiDAR / Camera)
-    \draw[fill=blue!20, draw=blue!70!black, rounded corners=3pt] (5.8, 4.3) rectangle (7.2, 4.7);
-    \node[font=\tiny\bfseries, color=blue!80!black] at (6.5, 4.5) {LiDAR / Camera};
-
-    % 2. IN-VEHICLE ECUs & MODULES
-    \node[box, minimum width=2.4cm, minimum height=1.0cm] (ecu_tele) at (1.2, 2.7) {\textbf{Telematics Gateway}\\GPS / Cellular / V2X};
-    \node[box, minimum width=2.4cm, minimum height=1.0cm] (ecu_obd) at (4.4, 2.7) {\textbf{OBD-II Port}\\Diagnostic Interface};
-    \node[box, minimum width=2.4cm, minimum height=1.0cm] (ecu_powertrain) at (8.0, 2.7) {\textbf{Powertrain ECU}\\Motor \& Throttle Control};
-    \node[box, minimum width=2.4cm, minimum height=1.0cm] (ecu_safety) at (11.8, 2.7) {\textbf{Chassis \& Brakes}\\Brake Solenoid \& Belt};
-
-    % 3. INTERNAL CAN BUS BACKBONE LINE
-    \draw[ultra thick, color=blue!80!black] (-0.4, 1.6) -- (13.4, 1.6);
-    \node[anchor=south west, font=\bfseries\scriptsize, color=blue!80!black] at (-0.4, 1.65) {In-Vehicle CAN-Bus Backbone (ISO 11898 -- 500 kbps Differential Pair)};
-
-    % ECU Drops to CAN Bus
-    \draw[thick, color=blue!80!black] (ecu_tele.south) -- (1.2, 1.6);
-    \draw[thick, color=blue!80!black] (ecu_obd.south) -- (4.4, 1.6);
-    \draw[thick, color=blue!80!black] (ecu_powertrain.south) -- (8.0, 1.6);
-    \draw[thick, color=blue!80!black] (ecu_safety.south) -- (11.8, 1.6);
-
-    % 4. ATTACK INGRESS VECTORS
-    \node[alertbox, minimum width=2.6cm, minimum height=1.2cm] (threat) at (1.2, -0.6) {\textbf{Threat Vectors}\\(1) Wireless V2X Flood\\(2) OBD-II CAN Injection\\(3) Sensor Spoofing};
-    \draw[arrow, color=red!80!black, ultra thick, dashed] (threat.north) -- (ecu_tele.south) node[midway, left, font=\tiny\bfseries, color=red!80!black] {Ingress};
-    \draw[arrow, color=red!80!black, ultra thick, dashed] (threat.north east) -- (ecu_obd.south);
-
-    % 5. RESILIAV DUAL-STAGE AI ENGINE
-    \node[box, fill=orange!10, draw=orange!80!black, minimum width=4.6cm, minimum height=1.4cm] (resiliav) at (6.5, -0.6) {\textbf{ResiliAV (ACH-IDS) Detection Engine}\\\textbullet\ \textbf{Stage 1:} Fast XGBoost ($\tau < 0.5$\,ms, 88\% traffic cleared)\\\textbullet\ \textbf{Stage 2:} 1D-CNN + Self-Attention ($\tau < 1.2$\,ms)\\\textbf{Combined Latency: 1.48 ms} ($<$ 10\,ms CAN Deadline)};
-    \draw[arrow, ultra thick, color=blue!80!black] (4.4, 1.6) -- (4.4, 0.3) -- (resiliav.north west);
-
-    % 6. CLOSED-LOOP PHYSICAL ACTUATION
-    \node[actbox, minimum width=4.0cm, minimum height=1.4cm] (actuator) at (11.8, -0.6) {\textbf{ISO 26262 ASIL-D Fail-Safe Actuation}\\\textbullet\ \textbf{Speed Hard-Clamped to $\le$ 50 km/h}\\\textbullet\ \textbf{Seatbelt Pre-Tensioner Mechanically Locked}\\\textbullet\ \textbf{Cabin Audio Warning Broadcasted}};
-    \draw[arrow, color=green!60!black, ultra thick] (resiliav.east) -- (actuator.west) node[midway, above, font=\tiny\bfseries, color=green!60!black] {Threat Trigger};
-    \draw[arrow, color=green!60!black, ultra thick] (actuator.north) -- (ecu_safety.south);
-    \draw[arrow, color=green!60!black, ultra thick] (actuator.north west) -- (ecu_powertrain.south);
-
-\end{tikzpicture}
-\caption{System architecture of ResiliAV: How cyber threats enter the autonomous car, how the dual-stage AI detects them in under 1.5\,ms, and how the closed-loop fail-safe actuator physically locks the speed to 50\,km/h and engages safety belts.}
+\includegraphics[width=0.96\textwidth]{car_architecture.png}
+\caption{Cyber-Physical System Architecture of ResiliAV: Multi-sensor ingress (GPS/V2X, Camera/LiDAR, Radar), in-vehicle CAN-bus backbone (ISO 11898), adversary injection points (DoS flooding, speed override, seatbelt sensor bypass), and the closed-loop fail-safe mitigation loop (50\,km/h Limp-Home speed clamp, mechanical seatbelt pre-tensioning, and cabin audio warning alert).}
 \label{fig:car_architecture}
 \vspace{-2mm}
 \end{figure*}
