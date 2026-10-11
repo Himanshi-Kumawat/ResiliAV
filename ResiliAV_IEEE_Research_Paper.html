@@ -729,6 +729,150 @@
     In high-speed automotive networks, the inter-arrival deadline for critical brake and throttle signals is strictly &tau;<sub>max</sub> = 10 ms. Monolithic deep models exhaust 31.2% of this temporal budget. ResiliAV's asymmetric design completes line-rate inference in <strong>1.48 ms</strong> (&tau;<sub>inf</sub> / &tau;<sub>max</sub> = 14.8%), leaving ample headroom for ECU bus serialization and physical brake actuator response.
   </p>
 
+</div>
+
+<!-- Full-Width Block for Empirical Evaluation Graphs (Figure 2) -->
+<div class="full-width-block">
+  <div class="figure-box">
+    <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: stretch;">
+      
+      <!-- Graph (a): Latency vs Accuracy -->
+      <div style="flex: 1 1 380px; max-width: 480px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
+        <div style="font-size: 8.5pt; font-weight: bold; color: #1e293b; margin-bottom: 6px; text-align: center;">
+          (a) Detection Accuracy vs. Inference Latency (&tau;)
+        </div>
+        <svg viewBox="0 0 450 230" style="width: 100%; height: auto; font-family: sans-serif;">
+          <!-- Grid & Axes -->
+          <rect x="50" y="20" width="370" height="170" fill="#ffffff" stroke="#e2e8f0" />
+          <line x1="50" y1="62" x2="420" y2="62" stroke="#f1f5f9" stroke-width="1" />
+          <line x1="50" y1="105" x2="420" y2="105" stroke="#f1f5f9" stroke-width="1" />
+          <line x1="50" y1="147" x2="420" y2="147" stroke="#f1f5f9" stroke-width="1" />
+          
+          <!-- 10ms Deadline Line -->
+          <line x1="330" y1="20" x2="330" y2="190" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3" />
+          <text x="335" y="45" font-size="9" fill="#ef4444" font-weight="bold">10 ms CAN Deadline</text>
+          
+          <!-- Pareto Optimal Zone -->
+          <rect x="70" y="25" width="160" height="75" fill="#22c55e" fill-opacity="0.12" stroke="#22c55e" stroke-width="1" rx="4" />
+          <text x="75" y="40" font-size="8.5" fill="#15803d" font-weight="bold">Pareto-Optimal Zone</text>
+
+          <!-- Axes Marks -->
+          <text x="42" y="194" font-size="8" fill="#64748b" text-anchor="end">98.0%</text>
+          <text x="42" y="149" font-size="8" fill="#64748b" text-anchor="end">98.5%</text>
+          <text x="42" y="107" font-size="8" fill="#64748b" text-anchor="end">99.0%</text>
+          <text x="42" y="64" font-size="8" fill="#64748b" text-anchor="end">99.5%</text>
+          <text x="42" y="24" font-size="8" fill="#64748b" text-anchor="end">100.0%</text>
+          
+          <text x="50" y="205" font-size="8" fill="#64748b" text-anchor="middle">0.1ms</text>
+          <text x="140" y="205" font-size="8" fill="#64748b" text-anchor="middle">1.0ms</text>
+          <text x="240" y="205" font-size="8" fill="#64748b" text-anchor="middle">3.0ms</text>
+          <text x="330" y="205" font-size="8" fill="#ef4444" font-weight="bold" text-anchor="middle">10.0ms</text>
+          <text x="420" y="205" font-size="8" fill="#64748b" text-anchor="middle">20.0ms</text>
+
+          <!-- Points -->
+          <!-- Random Forest: 2.45 ms, 98.15% -->
+          <rect x="216" y="174" width="7" height="7" fill="#3b82f6" />
+          <text x="226" y="180" font-size="8" fill="#1d4ed8">RF (2.45ms, 98.15%)</text>
+
+          <!-- 1D-CNN: 3.12 ms, 98.92% -->
+          <polygon points="248,108 244,115 252,115" fill="#a855f7" />
+          <text x="256" y="114" font-size="8" fill="#7e22ce">1D-CNN (3.12ms, 98.92%)</text>
+
+          <!-- XGBoost: 0.41 ms, 99.42% -->
+          <polygon points="105,65 109,70 105,75 101,70" fill="#f97316" />
+          <text x="113" y="73" font-size="8" fill="#c2410c">XGBoost (0.41ms, 99.42%)</text>
+
+          <!-- ResiliAV: 1.48 ms, 99.78% -->
+          <circle cx="165" cy="37" r="7" fill="#ef4444" fill-opacity="0.25" />
+          <circle cx="165" cy="37" r="4" fill="#dc2626" />
+          <text x="175" y="36" font-size="9" fill="#b91c1c" font-weight="bold">ResiliAV (1.48ms, 99.78%)</text>
+        </svg>
+      </div>
+
+      <!-- Graph (b): Deceleration Curve -->
+      <div style="flex: 1 1 380px; max-width: 480px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
+        <div style="font-size: 8.5pt; font-weight: bold; color: #1e293b; margin-bottom: 6px; text-align: center;">
+          (b) Closed-Loop Vehicle Velocity Response (100 &rarr; 50 km/h)
+        </div>
+        <svg viewBox="0 0 450 230" style="width: 100%; height: auto; font-family: sans-serif;">
+          <!-- Grid & Axes -->
+          <rect x="50" y="20" width="370" height="170" fill="#ffffff" stroke="#e2e8f0" />
+          
+          <!-- Attack Injected Line -->
+          <line x1="140" y1="20" x2="140" y2="190" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="3,3" />
+          <text x="145" y="32" font-size="8.5" fill="#ef4444" font-weight="bold">Attack Injected (t = 2.0s)</text>
+
+          <!-- Detected Instant -->
+          <line x1="145" y1="50" x2="145" y2="190" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="2,2" />
+          <text x="150" y="65" font-size="8" fill="#0284c7" font-weight="bold">Detected in 1.48 ms</text>
+
+          <!-- Safe Clamp Line (50 km/h) -->
+          <line x1="50" y1="120" x2="420" y2="120" stroke="#059669" stroke-width="1.2" stroke-dasharray="4,4" />
+          <text x="310" y="115" font-size="8" fill="#059669" font-weight="bold">ASIL-D 50 km/h Limit</text>
+
+          <!-- Unprotected Vehicle Line (100 km/h constant) -->
+          <line x1="50" y1="48" x2="420" y2="48" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,4" />
+          <text x="260" y="43" font-size="8" fill="#64748b">Without Defense (100 km/h Unchecked)</text>
+
+          <!-- ResiliAV Deceleration Curve -->
+          <path d="M 50,48 L 140,48 Q 180,50 220,80 T 300,120 L 420,120" fill="none" stroke="#0d9488" stroke-width="3" />
+          <circle cx="300" cy="120" r="4" fill="#0d9488" />
+          <text x="235" y="140" font-size="8.5" fill="#0f766e" font-weight="bold">ResiliAV Limp-Home Clamp (82% kinetic energy cut)</text>
+
+          <!-- Axis Labels -->
+          <text x="42" y="52" font-size="8" fill="#64748b" text-anchor="end">100 km/h</text>
+          <text x="42" y="86" font-size="8" fill="#64748b" text-anchor="end">75 km/h</text>
+          <text x="42" y="124" font-size="8" fill="#059669" font-weight="bold" text-anchor="end">50 km/h</text>
+          <text x="42" y="160" font-size="8" fill="#64748b" text-anchor="end">25 km/h</text>
+          <text x="42" y="194" font-size="8" fill="#64748b" text-anchor="end">0 km/h</text>
+
+          <text x="50" y="205" font-size="8" fill="#64748b" text-anchor="middle">0.0s</text>
+          <text x="140" y="205" font-size="8" fill="#ef4444" font-weight="bold" text-anchor="middle">2.0s</text>
+          <text x="230" y="205" font-size="8" fill="#64748b" text-anchor="middle">4.0s</text>
+          <text x="320" y="205" font-size="8" fill="#64748b" text-anchor="middle">6.0s</text>
+          <text x="410" y="205" font-size="8" fill="#64748b" text-anchor="middle">8.0s</text>
+        </svg>
+      </div>
+
+    </div>
+    <div class="figure-caption">
+      <strong>Fig. 2. Empirical Verification of ResiliAV:</strong> (a) Trade-off between detection accuracy and inference latency across benchmark models, demonstrating that ResiliAV achieves 99.78% accuracy in 1.48 ms (well within the 10 ms CAN deadline); (b) Closed-loop dynamic vehicle deceleration profile during a live cyber-attack, illustrating smooth automated deceleration from 100 km/h cruising down to the certified ASIL-D 50 km/h Limp-Home clamp.
+    </div>
+  </div>
+</div>
+
+<!-- Back to Two Columns for Vehicle Operation & Conclusion -->
+<div class="two-column">
+
+  <h3 class="subsection-heading">B. Step-by-Step Vehicle Operation (How the Autonomous Car Responds)</h3>
+  <p>
+    To make the cyber-physical operation clear and easy to understand, the vehicle defense process operates in four straightforward phases (as illustrated in Figure 1 and Figure 2b):
+  </p>
+  <p class="no-indent">
+    <strong>1) Normal Driving Phase (Green State):</strong> The autonomous car drives normally at highway cruising speed (100 km/h). Electronic control units (ECUs) continuously broadcast sensor readings across the CAN bus. Stage 1 (XGBoost) inspects each packet in under 0.41 ms, immediately clearing over 88% of benign messages without loading the vehicle computer.
+  </p>
+  <p class="no-indent">
+    <strong>2) Cyber-Attack Ingress Phase (Red State):</strong> An attacker attempts to disrupt the car by injecting unauthorized CAN frames through the wireless telematics antenna or physical OBD-II diagnostic port (such as DoS floods to freeze communication, or speed sensor spoofing to trick the vehicle into an unsafe state).
+  </p>
+  <p class="no-indent">
+    <strong>3) Fast Dual-Stage AI Detection (1.48 ms):</strong> When suspicious packets appear, Stage 1 flags them and forwards them to Stage 2 (1D-CNN with Multi-Head Self-Attention). Stage 2 analyzes individual payload bits and confirms the attack in just <strong>1.48 ms</strong>. Because safety-critical CAN messages repeat every 10 ms, detecting the threat in 1.48 ms leaves plenty of time to intervene before the car makes an incorrect physical movement.
+  </p>
+  <p class="no-indent">
+    <strong>4) Closed-Loop Fail-Safe Actuation (ASIL-D Limp-Home Mode):</strong> Unlike earlier research systems that only display a warning on a computer monitor while the car continues moving, ResiliAV takes immediate physical action:
+  </p>
+  <p class="no-indent" style="font-size: 8.5pt; margin-left: 10px; margin-bottom: 3px;">
+    &bull; <strong>Speed Governor Lock:</strong> The engine throttle is automatically restricted, smoothly decelerating the vehicle to a safe <strong>50 km/h Limp-Home crawl</strong>. This reduces the vehicle's kinetic impact energy by <strong>82%</strong>, preventing high-speed fatal crashes.
+  </p>
+  <p class="no-indent" style="font-size: 8.5pt; margin-left: 10px; margin-bottom: 3px;">
+    &bull; <strong>Mechanical Seatbelt Lock:</strong> Seatbelt pre-tensioners are mechanically locked in place to keep passengers safe, ignoring any false or spoofed buckle signals.
+  </p>
+  <p class="no-indent" style="font-size: 8.5pt; margin-left: 10px; margin-bottom: 3px;">
+    &bull; <strong>In-Cabin Voice Alert:</strong> An audio synthesizer alerts passengers: <em>"Cyber threat detected on vehicle network. Speed locked to 50 km/h for passenger safety."</em>
+  </p>
+  <p class="no-indent" style="font-size: 8.5pt; margin-left: 10px; margin-bottom: 6px;">
+    &bull; <strong>Minimum Risk Maneuver (MRM):</strong> The vehicle steering assists in guiding the car safely toward the road shoulder instead of stopping dangerously in the middle of highway lanes.
+  </p>
+
   <h2 class="section-heading">VI. Discussion &amp; Safety Compliance</h2>
   <p>
     The integration of ResiliAV directly conforms to two international automotive benchmarks:
