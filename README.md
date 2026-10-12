@@ -9,21 +9,26 @@
 
 ---
 
-## 📂 Project Repository Contents
+## 📂 Project Repository Structure
 
 ```
-📁 ResiliAV/
-├── 📜 CHAT_HISTORY_COMPLETE.md              # Complete untruncated conversation history from previous session
-├── 📄 PROJECT_BLUEPRINT.md                  # Complete System Architecture, Novelty, & Benchmark Dossier
-├── 📄 README.md                             # Project Navigation and Setup Guide
-├── 📓 ResiliAV_ACH_IDS_Colab_Notebook.ipynb    # Google Colab AI Model Training & Evaluation Pipeline
-├── 📑 ResiliAV_IEEE_Research_Paper.pdf       # Complete IEEE Conference Publication Paper (PDF)
-├── 📑 ResiliAV_IEEE_Research_Paper_Final.pdf # Final Camera-Ready IEEE Research Paper (PDF)
-├── 🌐 ResiliAV_IEEE_Research_Paper.html      # Standalone Interactive HTML Research Paper
-├── 🖼️ ResiliAV Autonomous Vehicle Security Dashboard.png # Concept UI Preview
-├── 📦 ResiliAV_Overleaf_Package.zip          # Ready-to-upload Overleaf LaTeX Archive
-└── 📁 Overleaf_Package/                     # LaTeX Source Files (main.tex + references.bib)
+📁 ResiliAV/ (Clean Web Application)
+├── 📁 public/                 # Static web assets & vehicle schematics
+├── 📁 src/                    # React application source code
+│   ├── 📁 components/         # UI cards, telemetry panels & control widgets
+│   ├── 📁 context/            # Real-time cyber simulation state engine
+│   ├── 📁 data/               # CAN-bus datasets & calibrated metrics
+│   ├── 📁 views/              # Cockpit view pages (Dashboard, Telemetry, etc.)
+│   ├── App.jsx                # Main application shell
+│   └── main.jsx               # React DOM entrypoint
+├── index.html                 # HTML shell with futuristic font imports
+├── package.json               # Node.js dependencies & build scripts
+├── tailwind.config.js         # Custom cyber-cyan & dark aesthetic theme
+└── vite.config.js             # High-speed Vite bundler configuration
 ```
+
+> **Note on Research Artifacts:** LaTeX IEEE conference papers, Overleaf packages, Colab ML pipelines, and research dossiers are cleanly separated in `ResiliAV_Info` on your local system / desktop.
+
 
 ---
 
