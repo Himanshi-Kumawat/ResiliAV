@@ -2,6 +2,7 @@
 ## Adaptive Closed-Loop Hybrid Intrusion Detection & Automated Fail-Safe Actuation (ACH-IDS)
 
 **Lead Researcher & Developer:** Himanshi Kumawat (`Himanshi.24bcan0421@jecrcu.edu.in`)  
+**Core Contributor & Developer:** Laxman Mahto (`laxmanmahto003@gmail.com`)  
 **Institution:** JECRC University, Jaipur &bull; BCA (Final Year - 2027 Batch)  
 **Domain:** Connected Autonomous Vehicles (CAV) Cybersecurity & ISO 26262 ASIL-D Functional Safety  
 **Active Workspace:** `c:\PROJECTSS\ResiliAV`  
